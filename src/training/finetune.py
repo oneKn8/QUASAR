@@ -12,7 +12,7 @@ Usage:
     python -m src.training.finetune --config configs/training.yaml
 
     # Resume from checkpoint
-    python -m src.training.finetune --resume models/checkpoints/quantum-mind-v2/checkpoint-500
+    python -m src.training.finetune --resume models/checkpoints/quasar-v2/checkpoint-500
 
 Requirements:
     - NVIDIA GPU with 24GB+ VRAM (A100 recommended)
@@ -109,7 +109,7 @@ class FinetuneConfig:
     dataset_dir: str = "data/mixed"
 
     # Output
-    output_dir: str = "models/checkpoints/quantum-mind-v2"
+    output_dir: str = "models/checkpoints/quasar-v2"
     logging_dir: str = "logs/training"
 
     # Resume

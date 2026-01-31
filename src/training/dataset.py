@@ -1,5 +1,5 @@
 """
-Dataset preparation module for QuantumMind.
+Dataset preparation module for QUASAR.
 
 This module handles:
 1. Downloading QuantumLLMInstruct dataset from HuggingFace
@@ -933,7 +933,7 @@ def prepare_mixed_training_data(
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Dataset preparation for QuantumMind")
+    parser = argparse.ArgumentParser(description="Dataset preparation for QUASAR")
     parser.add_argument("--download", action="store_true", help="Download dataset")
     parser.add_argument("--filter", action="store_true", help="Filter dataset")
     parser.add_argument("--format", action="store_true", help="Format for training")

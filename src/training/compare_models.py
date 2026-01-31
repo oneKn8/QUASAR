@@ -3,8 +3,8 @@ Model comparison script for evaluating physics-augmented fine-tuning.
 
 Compares three models:
 1. Base model (Qwen2.5-Coder-7B-Instruct)
-2. Code-only fine-tuned (quantum-mind-v1)
-3. Physics-augmented (quantum-mind-v2)
+2. Code-only fine-tuned (quasar-v1)
+3. Physics-augmented (quasar-v2)
 
 Usage:
     python -m src.training.compare_models
@@ -25,8 +25,8 @@ class ComparisonConfig:
     """Configuration for model comparison."""
 
     base_model: str = "Qwen/Qwen2.5-Coder-7B-Instruct"
-    code_only_model: str = "models/checkpoints/quantum-mind-v1"
-    physics_augmented_model: str = "models/checkpoints/quantum-mind-v2"
+    code_only_model: str = "models/checkpoints/quasar-v1"
+    physics_augmented_model: str = "models/checkpoints/quasar-v2"
     num_prompts: int = 100
     output_path: str = "results/model_comparison.yaml"
     seed: int = 42
@@ -323,13 +323,13 @@ def main():
     parser.add_argument(
         "--code-only",
         type=str,
-        default="models/checkpoints/quantum-mind-v1",
+        default="models/checkpoints/quasar-v1",
         help="Code-only fine-tuned model path",
     )
     parser.add_argument(
         "--physics-augmented",
         type=str,
-        default="models/checkpoints/quantum-mind-v2",
+        default="models/checkpoints/quasar-v2",
         help="Physics-augmented model path",
     )
     parser.add_argument(

@@ -76,7 +76,7 @@ dataset:
 
 # Output configuration
 output:
-  dir: "models/checkpoints/quantum-mind-v2"
+  dir: "models/checkpoints/quasar-v2"
   logging_dir: "logs/training"
   hub_model_id: null  # Set to push to HuggingFace Hub
 

@@ -8,7 +8,7 @@ Validates fine-tuned models on a suite of test prompts, measuring:
 - Physics reasoning quality
 
 Usage:
-    python -m src.training.validate_model --model models/checkpoints/quantum-mind-v2
+    python -m src.training.validate_model --model models/checkpoints/quasar-v2
     python -m src.training.validate_model --model Qwen/Qwen2.5-Coder-7B-Instruct --base
 """
 
@@ -26,13 +26,13 @@ import yaml
 class ValidationConfig:
     """Configuration for model validation."""
 
-    model_path: str = "models/checkpoints/quantum-mind-v2"
+    model_path: str = "models/checkpoints/quasar-v2"
     is_base_model: bool = False  # True if validating base model without LoRA
     num_prompts: int = 100
     max_new_tokens: int = 1024
     temperature: float = 0.7
     top_p: float = 0.9
-    output_dir: str = "models/checkpoints/quantum-mind-v2"
+    output_dir: str = "models/checkpoints/quasar-v2"
     seed: int = 42
 
 
@@ -497,7 +497,7 @@ def main():
     parser.add_argument(
         "--model",
         type=str,
-        default="models/checkpoints/quantum-mind-v2",
+        default="models/checkpoints/quasar-v2",
         help="Path to model checkpoint",
     )
     parser.add_argument(
