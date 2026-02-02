@@ -31,9 +31,9 @@ class DatasetConfig:
     raw_dir: str = "data/raw"
     processed_dir: str = "data/processed"
     min_output_length: int = 50
-    max_output_length: int = 5000
-    require_qiskit: bool = True
-    require_function: bool = True
+    max_output_length: int = 10000
+    require_qiskit: bool = False  # Dataset has math reasoning, not just code
+    require_function: bool = False  # Dataset has math reasoning, not just code
     train_split: float = 0.9
     seed: int = 42
     categories: list[str] = field(
@@ -100,10 +100,11 @@ def filter_example(example: dict, config: DatasetConfig) -> bool:
     Returns:
         True if example should be kept
     """
-    output = example.get("output", "")
+    # Support both 'output' and 'solution' column names, handle None values
+    output = example.get("output") or example.get("solution") or ""
 
     # Length checks
-    if len(output) < config.min_output_length:
+    if not output or len(output) < config.min_output_length:
         return False
     if len(output) > config.max_output_length:
         return False
@@ -117,17 +118,19 @@ def filter_example(example: dict, config: DatasetConfig) -> bool:
         if "def " not in output:
             return False
 
-    # Category check (if available)
-    if "category" in example:
-        category = example["category"]
-        if config.categories and category not in config.categories:
-            return False
+    # Category check (if available) - supports both 'category' and 'sub_domain'
+    category = example.get("category") or example.get("sub_domain", "")
+    if config.categories and category:
+        # Only filter if categories are specified and category is known
+        # Skip category check if the example doesn't match expected format
+        pass  # Disabled for now - dataset uses different domain names
 
-    # Syntax validation
-    try:
-        compile(output, "<string>", "exec")
-    except SyntaxError:
-        return False
+    # Syntax validation only if it looks like Python code
+    if config.require_qiskit or config.require_function:
+        try:
+            compile(output, "<string>", "exec")
+        except SyntaxError:
+            return False
 
     return True
 
@@ -142,10 +145,11 @@ def clean_example(example: dict) -> dict:
     Returns:
         Cleaned example
     """
-    output = example.get("output", "")
+    # Support both 'output' and 'solution' column names, handle None values
+    output = example.get("output") or example.get("solution") or ""
 
     # Remove markdown code blocks
-    if "```python" in output:
+    if output and "```python" in output:
         start = output.find("```python")
         end = output.find("```", start + 9)
         if start != -1 and end != -1:
@@ -167,8 +171,12 @@ def clean_example(example: dict) -> dict:
         else:
             output = "from qiskit.circuit import Parameter\n" + output
 
+    # Normalize column names (problem -> input, solution -> output)
+    input_text = example.get("input") or example.get("problem") or ""
+
     return {
         **example,
+        "input": input_text,
         "output": output.strip(),
     }
 
