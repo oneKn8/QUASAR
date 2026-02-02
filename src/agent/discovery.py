@@ -1,5 +1,5 @@
 """
-Main discovery agent for QuantumMind.
+Main discovery agent for QUASAR.
 
 Orchestrates the autonomous circuit discovery loop by combining:
 - LLM proposer for circuit generation
